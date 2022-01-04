@@ -17,6 +17,7 @@ import {
   SET_LEFT_UNTIL,
   SET_RIGHT_UNTIL,
   SET_QUERY,
+  RECEIVE_ERROR_RESPONSE,
   RECEIVE_COMPARISON_APP_DATA,
   RECEIVE_PYROSCOPE_APP_DATA,
   REQUEST_PYROSCOPE_APP_DATA,
@@ -253,6 +254,8 @@ export default function (state = initialState, action) {
         ...state,
         isJSONLoading: true,
       };
+
+    case RECEIVE_ERROR_RESPONSE:
     case CANCEL_PYROSCOPE_APP_DATA:
     case CANCEL_COMPARISON_APP_DATA:
     case CANCEL_COMPARISON_DIFF_APP_DATA:

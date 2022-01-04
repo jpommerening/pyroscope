@@ -17,6 +17,7 @@ import {
   SET_LEFT_UNTIL,
   SET_RIGHT_FROM,
   SET_RIGHT_UNTIL,
+  RECEIVE_ERROR_RESPONSE,
   RECEIVE_COMPARISON_APP_DATA,
   REQUEST_COMPARISON_APP_DATA,
   CANCEL_COMPARISON_APP_DATA,
@@ -92,6 +93,11 @@ export const setMaxNodes = (maxNodes) => ({
 });
 
 export const refresh = (url) => ({ type: REFRESH, payload: { url } });
+
+export const receiveErrorResponse = (url, error) => ({
+  type: RECEIVE_ERROR_RESPONSE,
+  payload: { url, error },
+});
 
 export const requestTimeline = (url) => ({
   type: REQUEST_COMPARISON_TIMELINE,
@@ -297,7 +303,9 @@ function handleResponse(dispatch, response) {
     return response.json();
   }
   return response.text().then((text) => {
-    throw new ResponseNotOkError(response, text);
+    const error = new ResponseNotOkError(response, text);
+    dispatch(receiveErrorResponse(response.url, error));
+    throw error;
   });
 }
 
